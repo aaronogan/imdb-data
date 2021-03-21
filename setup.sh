@@ -1,3 +1,3 @@
 apt install python3-pip -y
-pip3 install wikipedia
+pip3 install wikipedia imdbpy
 

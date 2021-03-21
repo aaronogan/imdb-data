@@ -1,36 +1,21 @@
 #!/usr/bin/python3
-import argparse
-import wikipedia
+import imdb
 
-def __get_parser():
-    parser = argparse.ArgumentParser(description='Wikipedia Data')
-    parser.add_argument('-s', '--search', help='Search term', required=True)
-    parser.add_argument('-c', '--count', help='Result count', type=int, default=5, required=False)
+__imdb_api = imdb.IMDb()
 
-    return parser
+def __get_top_movies():
+    return __imdb_api.get_top250_movies()
 
-def __get_arguments():
-    parser = __get_parser()
-    return vars(parser.parse_args())
-
-def __get_search_results(arguments):
-    search = arguments['search']
-    count = arguments['count']
-    return wikipedia.search(search, results=count, suggestion=True)
-
-def __get_pages(arguments):
-    search_results = __get_search_results(arguments)
-    titles = search_results[0]
-    return [wikipedia.page(title=title, auto_suggest=False, redirect=True, preload=True) for title in titles]
+def __get_movie_details(movie):
+    __imdb_api.update(movie, info=['plot'])
 
 def main():
-    args = __get_arguments()
-    pages = __get_pages(args)
-
-    for page in pages:
-        print('==============')
-        print(page.links)
-        print(page.summary)
+    top_movies = __get_top_movies()
+    for movie in top_movies:
+        __get_movie_details(movie)
+        print(movie.current_info)
+        print(movie['plot'][0])
+        print(movie['synopsis'][0])
 
 if __name__ == "__main__": main()
 
