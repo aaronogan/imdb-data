@@ -1,3 +1,4 @@
-apt install python3-pip -y
-pip3 install wikipedia imdbpy
+apt install python3-pip postgresql postgresql-client -y
+pip3 install imdbpy
+
 
